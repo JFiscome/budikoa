@@ -1,0 +1,30 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 12000
+  },
+  "mysql": {
+    "connectionLimit": 10,
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "root",
+    "password": "root",
+    "database": "house_elephant"
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "pass": ""
+  },
+  "database-redis": {
+    "user": 1
+  },
+  "defaultParams": {
+    "pageIndex": 1,
+    "pageSize": 10
+  },
+  "token": {
+    "PrivateKey": "PrivateKey321",
+    "expiresIn": "12h"
+  }
+}
