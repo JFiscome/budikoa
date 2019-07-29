@@ -1,6 +1,5 @@
 const moment = require('moment')
 
-const { initMysqlPoolConnection } = require('../../core/mysql')
 const { initRedisClient } = require('../../core/redis')
 class BaseModel {
   constructor(idx) {
@@ -17,8 +16,7 @@ class BaseModel {
 
   async querySql(sql, values) {
     return new Promise((resolve, reject) => {
-      const pool = initMysqlPoolConnection(this.dbName)
-      pool.getConnection((err, connection) => {
+      global.elephantPool.getConnection((err, connection) => {
         if (err) return reject(err)
         connection.query(sql, values, (error, results) => {
           connection.release()

@@ -3,6 +3,7 @@ const Router = require('koa-router')
 const parser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const requireDirectory = require('require-directory')
+const { initMysqlPoolConnection } = require('./mysql')
 
 
 const { catchError } = require('../src/middleware/catchError')
@@ -27,6 +28,11 @@ class CoreInit {
      * 加载路由
      */
     CoreInit.initLoadRouters()
+
+    /**
+     * 数据库连接池初始化
+     */
+    CoreInit.loadMysqlPoolConnection()
 
   }
 
@@ -83,6 +89,13 @@ class CoreInit {
         CoreInit.app.use(obj.routes()).use(obj.allowedMethods())
       }
     }
+  }
+
+
+  static loadMysqlPoolConnection() {
+    // 配置连接以及挂载elephant数据库
+    const elephantPool = initMysqlPoolConnection(global.config.get('database-mysql.elephant'))
+    global.elephantPool = elephantPool
   }
 
 }
