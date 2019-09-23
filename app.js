@@ -13,6 +13,6 @@ app.use(async ctx => {
 const port = global.config.get('server.port') || 3000
 const host = global.config.get('server.host') || 'localhoust'
 
-console.log('fang elephant is running at :', [host, port].join(':'))
+console.log('budi koa is running at :', [host, port].join(':'))
 
 app.listen(port)

@@ -94,7 +94,7 @@ class CoreInit {
 
   static loadMysqlPoolConnection() {
     // 配置连接以及挂载elephant数据库
-    const elephantPool = initMysqlPoolConnection(global.config.get('database-mysql.elephant'))
+    const elephantPool = initMysqlPoolConnection(global.config.get('mysql.database'))
     global.elephantPool = elephantPool
   }
 
