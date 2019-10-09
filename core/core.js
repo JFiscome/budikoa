@@ -5,6 +5,7 @@ const logger = require('koa-logger')
 const requireDirectory = require('require-directory')
 const { initMysqlPoolConnection } = require('./mysql')
 
+const { checkSalt } = require('../src/middleware/checkSalt')
 
 const { catchError } = require('../src/middleware/catchError')
 
@@ -73,7 +74,10 @@ class CoreInit {
     // 3
     CoreInit.app.use(catchError)
 
-    // 4
+    // 4 校验头部盐
+    CoreInit.app.use(checkSalt)
+
+    // 5
     // 加载路由 在函数initLoadRouters中实现
   }
 

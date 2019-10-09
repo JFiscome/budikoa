@@ -9,7 +9,7 @@
     "port": 3306,
     "user": "root",
     "password": "root",
-    "database": "house_elephant"
+    "database": "budikoa"
   },
   "redis": {
     "host": "127.0.0.1",
@@ -26,5 +26,6 @@
   "token": {
     "PrivateKey": "PrivateKey321",
     "expiresIn": "12h"
-  }
+  },
+  "httpSalt": "httpSalt123"
 }
