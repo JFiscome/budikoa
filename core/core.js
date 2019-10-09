@@ -75,7 +75,7 @@ class CoreInit {
     CoreInit.app.use(catchError)
 
     // 4 校验头部盐
-    CoreInit.app.use(checkSalt)
+    if (global.env) CoreInit.app.use(checkSalt)
 
     // 5
     // 加载路由 在函数initLoadRouters中实现
