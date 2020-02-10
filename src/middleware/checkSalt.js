@@ -1,4 +1,5 @@
 const {getHttpSalt} = require('../tools/utils');
+const {success, fail, ErrorMap} = require('../../core/exception');
 
 //存在问题哦如果query参数中加这个呢？
 const noNeedCheckApi = [
@@ -28,14 +29,14 @@ const checkSalt = async (ctx, next) => {
          */
 
         if (!lfk || !timestamp || lfk !== getHttpSalt(timestamp)) {
-            global.fail('WITHOUT_SALT');
+            fail(ErrorMap.clientErr, 'invalid request.');
         }
 
         /**
          * timestamp检验请求的时效性
          */
         if (Date.now() - timestamp > 5 * 60 * 1000) {
-            global.fail('REQUEST_EXPIRED');
+            fail(ErrorMap.clientErr, 'REQUEST_EXPIRED');
         }
     }
     await next()
