@@ -1,14 +1,19 @@
 const mysql = require('mysql')
 
-const initMysqlPoolConnection = (database = global.config.get('mysql.database')) => {
-  const pool = mysql.createPool({
-    connectionLimit: global.config.get('mysql.connectionLimit'),
-    host: global.config.get('mysql.host'),
-    user: global.config.get('mysql.user'),
-    password: global.config.get('mysql.password'),
-    database: database
-  })
-  return pool
+/**
+ * 一个项目暂支持一个mysql数据库
+ */
+const initMysqlPoolConnection = () => {
+    const msConf = global.config.get('mysql');
+    const pool = mysql.createPool({
+        connectionLimit: msConf.connectionLimit,
+        host: msConf.host,
+        user: msConf.user,
+        password: msConf.password,
+        database: msConf.database,
+        charset: msConf.charset,
+    })
+    return pool
 }
 
 module.exports = {initMysqlPoolConnection}

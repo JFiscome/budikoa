@@ -18,7 +18,7 @@ const {
 
 class LinValidator {
   constructor() {
-    this.data = {}
+    this.data = {};
     this.parsed = {}
   }
 
@@ -63,7 +63,6 @@ class LinValidator {
   }
 
   async validate(ctx, alias = {}) {
-    this.alias = alias
     let params = this._assembleAllParams(ctx)
     this.data = cloneDeep(params)
     this.parsed = cloneDeep(params)
@@ -72,16 +71,16 @@ class LinValidator {
       filter: this._findMembersFilter.bind(this)
     })
 
-    const errorMsgs = []
+    const errorMessages = []
     // const map = new Map(memberKeys)
     for (let key of memberKeys) {
       const result = await this._check(key, alias)
       if (!result.success) {
-        errorMsgs.push(result.msg)
+        errorMessages.push(result.msg)
       }
     }
-    if (errorMsgs.length != 0) {
-      throw new HttpException('INVALID_PARAMETER', errorMsgs.join(','))
+    if (errorMessages.length != 0) {
+      throw new HttpException('INVALID_PARAMETER', errorMessages.join(','))
     }
     ctx.v = this
     return this

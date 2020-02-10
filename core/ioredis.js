@@ -1,14 +1,12 @@
-const ioredis = require('ioredis')
+const ioredis = require('ioredis');
 
 const initIoRedisClient = (dbx = 0, options = {}) => {
-  options.host = global.config.get('redis.host')
-  options.port = global.config.get('redis.port')
-  const pass = global.config.get('redis.pass')
-  if (pass) options.password = pass
-  options.db = dbx
+    const rsConf = global.config.get('redis');
+    options.host = rsConf.host;
+    options.port = rsConf.port;
+    if (rsConf.password) options.password = rsConf.password;
+    options.db = dbx;
+    return new ioredis(options)
+};
 
-  const redisClient = new ioredis(options)
-  return redisClient
-}
-
-module.exports = { initIoRedisClient }
+module.exports = {initIoRedisClient};
