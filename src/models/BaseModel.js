@@ -87,7 +87,7 @@ class BaseModel {
     async count(obj = {}, tableName) {
         let sql = `select count(*) as count from ?? `;
         let data = [tableName];
-        sql = await this.__joinWithOptions(obj, sql);
+        sql = await this.__joinWithOptions(data, obj, sql);
         let countRes = await this.querySql(sql, data);
         return countRes[0] ? countRes[0].count : 0
     }
@@ -96,16 +96,16 @@ class BaseModel {
      * 新增
      * infos新增的数据
      */
-    async insert(infos, tableName) {
-        if (!infos || JSON.stringify(infos) === '{}') {
+    async insert(obj, tableName) {
+        if (!obj || JSON.stringify(obj) === '{}') {
             throw new Error('insert object can not be null or empty object')
         }
         let fields = [], marks = [], data = [tableName];
         let sql = `insert into ?? `;
-        for (let field in infos) {
+        for (let field in obj) {
             fields.push(field);
             marks.push('?');
-            data.push(infos[field])
+            data.push(obj[field])
         }
         sql += `(${fields.join(',')}) values (${marks.join(',')})`;
         let insertRes = await this.querySql(sql, data);
@@ -137,30 +137,30 @@ class BaseModel {
      * infos: { status : 1}
      * obj :{id :100}
      */
-    async update(infos, obj = {}, tableName) {
-        if (!infos || JSON.stringify(infos) === '{}') {
+    async update(obj, condition = {}, tableName) {
+        if (!obj || JSON.stringify(obj) === '{}') {
             throw new Error('update object can not be null or empty object')
         }
         let sql = `update ?? set `;
         let conditions = [], data = [tableName];
-        for (let field in infos) {
+        for (let field in obj) {
             conditions.push(`${field} = ?`);
-            data.push(infos[field])
+            data.push(obj[field])
         }
         sql += conditions.join(',');
         // 具备条件
-        sql = await this.__joinWithOptions(obj, sql);
+        sql = await this.__joinWithOptions(data, condition, sql);
 
         return await this.querySql(sql, data)
     }
 
-    async __joinWithOptions(obj, sql) {
-        if (obj && JSON.stringify(obj) !== '{}') {
+    async __joinWithOptions(data, condition, sql) {
+        if (condition && JSON.stringify(condition) !== '{}') {
             sql += ` where `;
             let fields = [];
-            for (let field in obj) {
+            for (let field in condition) {
                 fields.push(`${field} = ?`);
-                data.push(obj[field])
+                data.push(condition[field])
             }
             sql += fields.join(' and ')
         }
