@@ -5,7 +5,6 @@ const utils = require('../tools/utils');
 
 const {initIoRedisClient} = require('../../core/ioredis');
 
-
 class BaseModel {
     constructor(idx) {
         this.redis = initIoRedisClient(idx);
@@ -228,8 +227,6 @@ class BaseModel {
 
         return await this.querySql(sql, data)
     }
-
-
 }
 
 
